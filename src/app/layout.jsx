@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { SocketProvider } from "@/context/SocketContext";
 import NotificationListener from "@/components/NotificationListener";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <SocketProvider>
             <NotificationListener />
+                    <Toaster position="top-right" reverseOrder={false} />
+
             {children}
           </SocketProvider>
         </Providers>
