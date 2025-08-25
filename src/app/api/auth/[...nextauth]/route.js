@@ -9,40 +9,38 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        try {
-          const res = await fetch(`http://localhost:4000/api/login`, {
-            // const res = await fetch(`https://attendancesystem-server-joov.onrender.com/api/login`, {
-            // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          });
+ async authorize(credentials) {
+  try {
+    const res = await fetch(`https://attendancesystem-server-joov.onrender.com/api/login`, {
+    // const res = await fetch(`https://attendancesystem-server-joov.onrender.com/api/login`, {
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
 
-          const text = await res.text();
-          let data;
-          try {
-            data = JSON.parse(text);
-          } catch {
-            return null;
-          }
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } 
+    catch { return null; }
 
-          if (!res.ok || data.status !== "success") {
-            return null; // failed login
-          }
+    if (!res.ok || data.status !== "success") {
+      return null; // failed login
+    }
 
-          return {
-            id: data.data.user.id,
-            name: data.data.user.name,
-            email: data.data.user.email,
-            role: data.data.user.role,
-            token: data.token,
-          };
-        } catch (err) {
-          console.error("Auth error:", err);
-          return null;
-        }
-      },
+    return {
+      id: data.data.user.id,
+      name: data.data.user.name,
+      email: data.data.user.email,
+      role: data.data.user.role,
+      token: data.token,
+    };
+  } catch (err) {
+    console.error("Auth error:", err);
+    return null;
+  }
+}
+
     }),
   ],
   callbacks: {

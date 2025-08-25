@@ -102,7 +102,7 @@ export function AppProvider({ children }) {
   const fetchTodayAttendance = async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/today`, {
+      const response = await fetch(`https://attendancesystem-server-joov.onrender.com/api/attendance/today`, {
         headers: {
           'Authorization': `Bearer ${session.accessToken}`
         }
