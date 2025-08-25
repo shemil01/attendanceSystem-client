@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
 import { apiClient } from "../../lib/api";
 import toast from "react-hot-toast";
 import { Calendar, Clock, AlertCircle } from "lucide-react";
 
 export default function LeaveRequestForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { data: session } = useSession();
   const {
     register,
     handleSubmit,
