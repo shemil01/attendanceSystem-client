@@ -1,7 +1,6 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 import { AppProvider } from '../context/AppContext';
 import LoginForm from '@/components/auth/LoginPage';
 import Dashboard from '@/components/dashboard/Dashboard';

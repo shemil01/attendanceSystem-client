@@ -66,8 +66,15 @@ export const apiClient = {
       method: "POST",
     }),
 
+    //  own attandance history
   getAttendanceHistory: (params = {}) =>
     request(`/attendance/history`, {
+      method: "GET",
+      params,
+    }),
+    /// todays attendance
+  getTodayAttendance: (params = {}) =>
+    request(`/attendance/today`, {
       method: "GET",
       params,
     }),
@@ -92,11 +99,6 @@ export const apiClient = {
       params,
     }),
 
-  // get attenedence
-  getAllEmployeesAttendence: () =>
-    request("/attendance/employees", {
-      method: "GET",
-    }),
 
   createEmployee: (employeeData) =>
     request("/employees", {
@@ -115,16 +117,29 @@ export const apiClient = {
       method: "GET",
       params,
     }),
+  // todatays leaves
+  getTodayLeaves: () =>
+    request("/today/leaves", {
+      method: "GET",
+    }),
 
   updateLeaveStatus: ({ leaveId, status }) =>
     request(`/leaves/${leaveId}`, {
       method: "PATCH",
       data: { status },
     }),
+
   getEmployee: (employeeId) =>
     request(`/employees/${employeeId}`, {
       method: "GET",
     }),
+
+      // get all  attenedence
+  getAllEmployeesAttendence: () =>
+    request("/attendance/employees", {
+      method: "GET",
+    }),
+
 
   getEmployeeAttendance: (employeeId, params = {}) =>
     request(`/attendance/employee/${employeeId}?${params}`, {

@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Plus, Search, Filter, Eye, Trash2 } from "lucide-react";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import AddEmployeeModal from "./AddEmployeeModal";
-import EmployeeDetail from "./EmployeeDetail";
+import EmployeeDetail from "./employee/EmployeeDetail";
 
 export default function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);

@@ -12,6 +12,7 @@ import SystemStats from "../admin/SystemStats";
 import DashboardStats from "../admin/DashboardStats";
 import AttendanceHistory from "../attendance/AttendanceHistory";
 import TimeTracker from "../attendance/TimeTracker";
+import TodayAttendance from "../attendance/TodayAttandance";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState(0);
@@ -26,10 +27,11 @@ export default function AdminDashboard() {
   const tabs = [
     { name: "Dashboard", component: SystemStats },
     { name: "Mark Attendence", component: TimeTracker },
-    { name: "Admin Attendance History", component: AttendanceHistory },
+    { name: "Admin Attendance History", component: AttendanceHistory }, 
     { name: "Employees", component: EmployeeManagement },
-    { name: "All Attendance", component: AttendanceOverview },
+    { name: "Today's Attendance", component: TodayAttendance }, 
     { name: "Leave Requests", component: LeaveApproval },
+    { name: "All Attendance", component: AttendanceOverview },
     { name: "Reports", component: Reports },
   ];
 
