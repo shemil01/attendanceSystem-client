@@ -3,7 +3,8 @@ import { getSession } from "next-auth/react";
 
 const api = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_API_URL,
-  baseURL: "https://attendancesystem-server-joov.onrender.com/api",
+  baseURL: "http://localhost:4000/api",
+  // baseURL: "https://attendancesystem-server-joov.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
