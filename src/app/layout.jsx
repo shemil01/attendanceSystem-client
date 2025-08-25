@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <SocketProvider>
             <NotificationListener />
-                    <Toaster position="top-right" reverseOrder={false} />
+            <Toaster position="top-right" reverseOrder={false} />
 
             {children}
           </SocketProvider>
