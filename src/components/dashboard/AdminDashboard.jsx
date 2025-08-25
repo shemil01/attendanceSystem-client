@@ -17,12 +17,6 @@ import SystemStats from "../admin/dashboard/SystemStats";
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState(0);
   const { data: session } = useSession();
-  const [stats, setStats] = useState({
-    totalEmployees: 0,
-    activeToday: 0,
-    onLeave: 0,
-    pendingLeaves: 0,
-  });
 
   const tabs = [
     { name: "Dashboard", component: SystemStats },
@@ -35,25 +29,7 @@ export default function AdminDashboard() {
     { name: "Reports", component: Reports },
   ];
 
-  // Fetch admin dashboard stats
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // This would be replaced with actual API call
-        const mockStats = {
-          totalEmployees: 47,
-          activeToday: 32,
-          onLeave: 5,
-          pendingLeaves: 8,
-        };
-        setStats(mockStats);
-      } catch (error) {
-        console.error("Error fetching stats:", error);
-      }
-    };
-
-    fetchStats();
-  }, []);
+  
 
   return (
     <div className="space-y-6">

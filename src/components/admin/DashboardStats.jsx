@@ -16,8 +16,8 @@ export default function DashboardStats() {
         const [employeesRes, leavesRes, todayLeav, attendanceRes] =
           await Promise.all([
             apiClient.getAllEmployees(),
-            apiClient.getTodayLeaves(),
             apiClient.getAllLeaves(),
+            apiClient.getTodayLeaves(),
             apiClient.getAllEmployeesAttendence(),
           ]);
 
@@ -25,7 +25,7 @@ export default function DashboardStats() {
         const leaves = leavesRes.data.leaves || leavesRes.data;
         const attendance = attendanceRes.data.attendance || attendanceRes.data;
         const todaysLeave = todayLeav.data.leaves;
-
+        
         setStats({
           totalEmployees: employees.length,
           pendingLeaves: leaves.filter((l) => l.status === "PENDING").length,

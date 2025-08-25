@@ -36,17 +36,17 @@ const LeaveApproval = () => {
   }, []);
 
   const updateLeaveStatus = async (leaveId, status) => {
-    setLoading(true);
+    setLoading({ [leaveId]: status }); // mark only that button as loading
     setError("");
     setSuccess("");
 
     try {
       const response = await apiClient.updateLeaveStatus({ leaveId, status });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        fetchLeaves();
-        throw new Error(errorData.message || "Failed to update leave status");
+      if (response.error) {
+        throw new Error(
+          response.error.message || "Failed to update leave status"
+        );
       }
 
       setPendingLeaves((prev) => prev.filter((leave) => leave._id !== leaveId));
@@ -54,7 +54,7 @@ const LeaveApproval = () => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setLoading({});
     }
   };
 
@@ -154,10 +154,10 @@ const LeaveApproval = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={() => updateLeaveStatus(leave._id, "APPROVED")}
-                  disabled={loading}
+                  disabled={loading[leave._id] === "APPROVED"}
                   className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
                 >
-                  {loading ? (
+                  {loading[leave._id] === "APPROVED" ? (
                     <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
@@ -166,12 +166,13 @@ const LeaveApproval = () => {
                     </>
                   )}
                 </button>
+
                 <button
                   onClick={() => updateLeaveStatus(leave._id, "REJECTED")}
-                  disabled={loading}
+                  disabled={loading[leave._id] === "REJECTED"}
                   className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
                 >
-                  {loading ? (
+                  {loading[leave._id] === "REJECTED" ? (
                     <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
