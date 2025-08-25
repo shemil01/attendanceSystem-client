@@ -22,13 +22,13 @@ export default function EmployeeDetail({ employeeId, onBack }) {
     if (employeeId) fetchEmployeeData();
   }, [employeeId]);
 
-  console.log("emp:", attendance);
   const fetchEmployeeData = async () => {
     try {
       setIsLoading(true);
 
       const empResponse = await apiClient.getEmployee(employeeId);
       setEmployee(empResponse.data.employee);
+      setAttendance(empResponse.data?.todayAttendance || null);
 
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - 7);

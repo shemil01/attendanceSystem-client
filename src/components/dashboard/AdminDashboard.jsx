@@ -8,11 +8,11 @@ import EmployeeManagement from "../admin/EmployeeManagement";
 import LeaveApproval from "../admin/LeaveApproval";
 import AttendanceOverview from "../admin/AttendanceOverview";
 import Reports from "../admin/Reports";
-import SystemStats from "../admin/SystemStats";
 import DashboardStats from "../admin/DashboardStats";
 import AttendanceHistory from "../attendance/AttendanceHistory";
 import TimeTracker from "../attendance/TimeTracker";
 import TodayAttendance from "../attendance/TodayAttandance";
+import SystemStats from "../admin/dashboard/SystemStats";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState(0);
