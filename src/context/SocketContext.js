@@ -17,6 +17,7 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -28,10 +29,8 @@ export const SocketProvider = ({ children }) => {
     const handleConnect = () => {
       setIsConnected(true);
       console.log('🔗 Socket connected');
-
       if (session.user?.id) {
         socketInstance.emit('join-user-room', session.user.id);
-        console.log(`Joined room: user-${session.user.id}`);
       }
     };
 
@@ -40,19 +39,27 @@ export const SocketProvider = ({ children }) => {
       console.log('🔌 Socket disconnected');
     };
 
+    const handleNotification = (notification) => {
+      console.log("📩 New notification:", notification);
+      setNotifications((prev) => [...prev, notification]); 
+    };
+
     socketInstance.on('connect', handleConnect);
     socketInstance.on('disconnect', handleDisconnect);
+    socketInstance.on('new-notification', handleNotification);
 
     return () => {
       socketInstance.off('connect', handleConnect);
       socketInstance.off('disconnect', handleDisconnect);
+      socketInstance.off('new-notification', handleNotification);
       socketClient.disconnect();
     };
   }, [session?.accessToken, session?.user?.id]);
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected }}>
+    <SocketContext.Provider value={{ socket, isConnected, notifications }}>
       {children}
     </SocketContext.Provider>
   );
 };
+
