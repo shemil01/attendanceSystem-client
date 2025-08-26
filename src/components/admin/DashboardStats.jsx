@@ -26,6 +26,11 @@ export default function DashboardStats() {
         const attendance = attendanceRes.data.attendance ? [response.data.attendance] : [];
         const todaysLeave = todayLeav.data.leaves;
         
+console.log(leaves)
+console.log(employees)
+console.log(attendance)
+console.log(todaysLeave)
+
         setStats({
           totalEmployees: employees.length,
           pendingLeaves: leaves.filter((l) => l.status === "PENDING").length,
