@@ -51,29 +51,32 @@ export const apiClient = {
       method: "POST",
     }),
 
+  // Checkout endpoint
   checkOut: () =>
     request("/attendance/check-out", {
       method: "POST",
     }),
 
+  // Start a breake
   startBreak: (breakType = "SHORT_BREAK") =>
     request("/attendance/break/start", {
       method: "POST",
       data: { breakType },
     }),
 
+  //  End the breake
   endBreak: () =>
     request("/attendance/break/end", {
       method: "POST",
     }),
 
-    //  own attandance history
+  //  own attandance history
   getAttendanceHistory: (params = {}) =>
     request(`/attendance/history`, {
       method: "GET",
       params,
     }),
-    /// todays attendance
+  /// todays attendance
   getTodayAttendance: (params = {}) =>
     request(`/attendance/today`, {
       method: "GET",
@@ -100,13 +103,14 @@ export const apiClient = {
       params,
     }),
 
-
+  // create a Employee(admin)
   createEmployee: (employeeData) =>
     request("/employees", {
       method: "POST",
       data: employeeData,
     }),
 
+  // delete a Employee(admin)
   deleteEmployee: (employeeId) =>
     request(`/employees/${employeeId}`, {
       method: "DELETE",
@@ -130,21 +134,20 @@ export const apiClient = {
       data: { status },
     }),
 
+  // get a employee (id)
   getEmployee: (employeeId) =>
     request(`/employees/${employeeId}`, {
       method: "GET",
     }),
 
-      // get all  attenedence
+  // get all  attenedence
   getAllEmployeesAttendence: () =>
     request("/attendance/employees", {
       method: "GET",
     }),
 
-
   getEmployeeAttendance: (employeeId, params = {}) =>
     request(`/attendance/employee/${employeeId}?${params}`, {
       method: "GET",
     }),
-
 };

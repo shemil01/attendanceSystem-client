@@ -12,7 +12,6 @@ export default function NotificationListener() {
   useEffect(() => {
     if (socket && session?.user?.id) {
       const handleNotification = (notification) => {
-        console.log('New notification received:', notification);
         
         // Show toast notification
         toast.success(notification.message, {

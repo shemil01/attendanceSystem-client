@@ -38,7 +38,6 @@ export const SocketProvider = ({ children }) => {
         };
 
         const handleDisconnect = () => {
-          console.log('Socket disconnected');
           setIsConnected(false);
         };
 
