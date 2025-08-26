@@ -141,7 +141,7 @@ export default function LoginForm() {
           </form>
 
           <div className="mt-6 text-center text-xs text-gray-500">
-            <p>Attendance Management System v1.0</p>
+            <p>Attendance Management System </p>
           </div>
         </div>
       </div>
