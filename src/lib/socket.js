@@ -8,7 +8,7 @@ export const socketClient = {
 
     console.log("Connecting to socket server...");
 
-    socket = io(process.env.NEXT_PUBLIC_API_URL || "https://attendancesystem-server-joov.onrender.com", {
+    socket = io(process.env.NEXT_PUBLIC_API_URL || "https://attendancesystem-server-joov.onrender.com/api", {
       auth: { token },
       transports: ["websocket"],
     });

@@ -21,15 +21,13 @@ export default function AdminDashboard() {
   const tabs = [
     { name: "Dashboard", component: SystemStats },
     { name: "Mark Attendence", component: TimeTracker },
-    { name: "Admin Attendance History", component: AttendanceHistory }, 
+    { name: "Admin Attendance History", component: AttendanceHistory },
     { name: "Employees", component: EmployeeManagement },
-    { name: "Today's Attendance", component: TodayAttendance }, 
+    { name: "Today's Attendance", component: TodayAttendance },
     { name: "Leave Requests", component: LeaveApproval },
     { name: "All Attendance", component: AttendanceOverview },
     { name: "Reports", component: Reports },
   ];
-
-  
 
   return (
     <div className="space-y-6">
@@ -61,7 +59,11 @@ export default function AdminDashboard() {
       {/* Main Content Tabs */}
       <div className="bg-white shadow rounded-lg">
         <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
-          <Tab.List className="flex border-b border-gray-200">
+          <Tab.List
+            className=" flex border-b border-gray-200 
+      overflow-x-auto flex-nowrap scrollbar-hide
+      md:overflow-visible md:flex-wrap"
+          >
             {tabs.map((tab) => (
               <Tab
                 key={tab.name}

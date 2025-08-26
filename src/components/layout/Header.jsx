@@ -7,7 +7,6 @@ import { useSocket } from "@/context/SocketContext";
 export default function Header() {
   const { data: session } = useSession();
   const { notifications } = useSocket();
-  console.log("noti::", notifications);
 
   return (
     <header className="bg-white shadow">

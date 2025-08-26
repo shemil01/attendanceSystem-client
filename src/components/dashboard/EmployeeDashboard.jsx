@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useApp } from '../../context/AppContext';
-import TimeTracker from '../attendance/TimeTracker';
-import { Tab } from '@headlessui/react';
-import { clsx } from '../../lib/utils';
-import AttendanceHistory from '../attendance/AttendanceHistory';
-import LeaveRequestForm from '../leaves/LeaveRequestForm';
-import LeaveHistory from '../leaves/LeaveHistory';
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useApp } from "../../context/AppContext";
+import TimeTracker from "../attendance/TimeTracker";
+import { Tab } from "@headlessui/react";
+import { clsx } from "../../lib/utils";
+import AttendanceHistory from "../attendance/AttendanceHistory";
+import LeaveRequestForm from "../leaves/LeaveRequestForm";
+import LeaveHistory from "../leaves/LeaveHistory";
 
 export default function EmployeeDashboard() {
   const [activeTab, setActiveTab] = useState(0);
@@ -16,10 +16,10 @@ export default function EmployeeDashboard() {
   const { data: session } = useSession();
 
   const tabs = [
-    { name: 'Time Tracker', component: TimeTracker },
-    { name: 'Attendance History', component: AttendanceHistory },
-    { name: 'Leave History', component: LeaveHistory },
-    { name: 'Leave Request', component: LeaveRequestForm },
+    { name: "Time Tracker", component: TimeTracker },
+    { name: "Attendance History", component: AttendanceHistory },
+    { name: "Leave History", component: LeaveHistory },
+    { name: "Leave Request", component: LeaveRequestForm },
   ];
 
   return (
@@ -34,16 +34,20 @@ export default function EmployeeDashboard() {
       </div>
 
       <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
-        <Tab.List className="flex border-b border-gray-200">
+        <Tab.List
+          className=" flex border-b border-gray-200 
+      overflow-x-auto flex-nowrap scrollbar-hide
+      md:overflow-visible md:flex-wrap"
+        >
           {tabs.map((tab, index) => (
             <Tab
               key={tab.name}
               className={({ selected }) =>
                 clsx(
                   selected
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                  'flex-1 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                  "flex-1 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
                 )
               }
             >

@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { socketClient } from '../lib/socket';
 
-const SocketContext = createContext(null);
+const SocketContext = createContext();
 
 export const useSocket = () => {
   const context = useContext(SocketContext);
@@ -17,49 +17,54 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [notifications, setNotifications] = useState([]);
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (!session?.accessToken) return;
+    if (session?.accessToken) {
+      try {
+        // Connect to Socket.io
+        const socketInstance = socketClient.connect(session.accessToken);
+        setSocket(socketInstance);
 
-    const socketInstance = socketClient.connect(session.accessToken);
-    setSocket(socketInstance);
+        // Set up event listeners
+        const handleConnect = () => {
+          console.log('Socket connected');
+          setIsConnected(true);
+          
+          // Join user's personal room after connection
+          if (session.user?.id) {
+            socketInstance.emit('join-user-room', session.user.id);
+          }
+        };
 
-    const handleConnect = () => {
-      setIsConnected(true);
-      console.log('🔗 Socket connected');
-      if (session.user?.id) {
-        socketInstance.emit('join-user-room', session.user.id);
+        const handleDisconnect = () => {
+          console.log('Socket disconnected');
+          setIsConnected(false);
+        };
+
+        socketInstance.on('connect', handleConnect);
+        socketInstance.on('disconnect', handleDisconnect);
+
+        // Cleanup function
+        return () => {
+          socketInstance.off('connect', handleConnect);
+          socketInstance.off('disconnect', handleDisconnect);
+          socketClient.disconnect();
+        };
+      } catch (error) {
+        console.error('Failed to connect socket:', error);
       }
-    };
+    }
+  }, [session]);
 
-    const handleDisconnect = () => {
-      setIsConnected(false);
-      console.log('🔌 Socket disconnected');
-    };
-
-    const handleNotification = (notification) => {
-      console.log("📩 New notification:", notification);
-      setNotifications((prev) => [...prev, notification]); 
-    };
-
-    socketInstance.on('connect', handleConnect);
-    socketInstance.on('disconnect', handleDisconnect);
-    socketInstance.on('new-notification', handleNotification);
-
-    return () => {
-      socketInstance.off('connect', handleConnect);
-      socketInstance.off('disconnect', handleDisconnect);
-      socketInstance.off('new-notification', handleNotification);
-      socketClient.disconnect();
-    };
-  }, [session?.accessToken, session?.user?.id]);
+  const value = {
+    socket,
+    isConnected: isConnected && socket?.connected
+  };
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected, notifications }}>
+    <SocketContext.Provider value={value}>
       {children}
     </SocketContext.Provider>
   );
 };
-
