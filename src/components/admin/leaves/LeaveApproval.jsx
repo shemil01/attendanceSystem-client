@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { apiClient } from "@/lib/api";
-import AlertMessage from "./AlertMessage";
 import LeaveCard from "./LeaveCard";
+import AlertMessage from "./AlertMessage";
 import EmptyState from "./EmptyState";
+
 
 const LeaveApproval = () => {
   const [pendingLeaves, setPendingLeaves] = useState([]);
@@ -58,7 +59,7 @@ const LeaveApproval = () => {
       {success && <AlertMessage type="success" message={success} />}
 
       {/* Pending Leaves */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid md:gap-6 md:grid-cols-2 grid-cols-1 lg:grid-cols-3">
         {pendingLeaves.map((leave) => (
           <LeaveCard
             key={leave._id}

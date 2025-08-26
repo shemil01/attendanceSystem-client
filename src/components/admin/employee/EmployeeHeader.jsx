@@ -1,30 +1,18 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { Plus } from "lucide-react";
 
-//  employee header component
-export default function EmployeeHeader({ employee, onBack }) {
+export default function EmployeeHeader({ onAdd }) {
   return (
-    <div className="flex items-center space-x-4 mb-6">
-      <button
-        onClick={onBack}
-        className="p-2 text-gray-400 hover:text-gray-600"
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </button>
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
-        <h2 className="text-xl font-bold text-gray-900">{employee.name}</h2>
-        <p className="text-gray-600">{employee.email}</p>
-        <div className="flex items-center space-x-2 mt-1">
-          <span className="text-sm text-gray-500">
-            {employee.department || "No department"}
-          </span>
-          <span className="text-sm text-gray-500">•</span>
-          <span className="text-sm text-gray-500">
-            {employee.position || "No position"}
-          </span>
-        </div>
+        <h3 className="text-lg font-medium text-gray-900">Employee Management</h3>
+        <p className="text-sm text-gray-500">Manage all employees in the system</p>
       </div>
+      <button onClick={onAdd} className="btn-primary">
+        <Plus className="h-4 w-4 mr-2" />
+        Add Employee
+      </button>
     </div>
   );
 }

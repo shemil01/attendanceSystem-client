@@ -25,7 +25,6 @@ export default function DashboardStats() {
         const leaves = leavesRes.data.leaves || leavesRes.data;
         const attendance = attendanceRes.data.attendance ? [response.data.attendance] : [];
         const todaysLeave = todayLeav.data.leaves;
-        console.log('attandance:',todaysLeave)
         
         setStats({
           totalEmployees: employees.length,
