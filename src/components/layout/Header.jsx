@@ -22,9 +22,9 @@ const { notifications } = useSocket();
             <div className="relative">
               <button className="p-2 text-gray-400 hover:text-gray-500">
                 <Bell className="h-6 w-6" />
-                {notifications.length > 0 && (
+                {notifications?.length > 0 && (
                   <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                    {notifications.length}
+                    {notifications?.length}
                   </span>
                 )}
               </button>
