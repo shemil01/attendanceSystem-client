@@ -150,4 +150,11 @@ export const apiClient = {
     request(`/attendance/employee/${employeeId}?${params}`, {
       method: "GET",
     }),
+
+
+      // get all  attenedence
+  getNotification: () =>
+    request("/notification", {
+      method: "GET",
+    }),
 };

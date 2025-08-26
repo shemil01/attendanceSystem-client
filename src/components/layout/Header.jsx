@@ -3,6 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { Bell, LogOut, User } from "lucide-react";
 import { useSocket } from "@/context/SocketContext";
+import NotificationsDropdown from "../NotificationsDropdown";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -19,7 +20,7 @@ export default function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            {/* <div className="relative">
               <button className="p-2 text-gray-400 hover:text-gray-500">
                 <Bell className="h-6 w-6" />
                 {notifications?.length > 0 && (
@@ -28,7 +29,8 @@ export default function Header() {
                   </span>
                 )}
               </button>
-            </div>
+            </div> */}
+             <NotificationsDropdown socketNotifications={notifications} />
 
             <div className="flex items-center space-x-2">
               <div className="flex items-center">
