@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!session?.user?.id) return;
-
+console.log('user',session.user.id)
     const socketInstance = io(
       "https://attendancesystem-server-joov.onrender.com"
     );
