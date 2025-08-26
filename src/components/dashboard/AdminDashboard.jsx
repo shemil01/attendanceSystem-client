@@ -54,7 +54,6 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Overview */}
-
       <DashboardStats />
       {/* Main Content Tabs */}
       <div className="bg-white shadow rounded-lg">

@@ -60,7 +60,7 @@ export default function DashboardStats() {
             </svg>
           </div>
           <div className="ml-4">
-            <p className="text-sm font-medium text-gray-600">Total Employees</p>
+            <p className="text-sm font-medium text-gray-600">Total Users</p>
             <p className="text-2xl font-semibold text-gray-900">
               {stats.totalEmployees}
             </p>
