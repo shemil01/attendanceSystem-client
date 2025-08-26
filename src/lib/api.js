@@ -151,9 +151,5 @@ export const apiClient = {
       method: "GET",
     }),
 
-  // get all  attenedence
-  getNotification: () =>
-    request("/notifications", {
-      method: "GET",
-    }),
+
 };
