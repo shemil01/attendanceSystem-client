@@ -13,15 +13,15 @@ export default function TodayAttendance() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
-    fetchAttendanceHistory();
+    fetchTodayAttendance();
   }, [selectedMonth, selectedYear]);
 
-  const fetchAttendanceHistory = async () => {
+  const fetchTodayAttendance = async () => {
     try {
       setIsLoading(true);
       const response = await apiClient.getTodayAttendance();
       // Wrap single attendance object in an array
-      setAttendance(response.data.attendance ? [response.data.attendance] : []);
+      setAttendance(response.data.attendance);
     } catch (error) {
       console.error("Error fetching attendance history:", error);
     } finally {
@@ -48,51 +48,51 @@ export default function TodayAttendance() {
     (_, i) => new Date().getFullYear() - i
   );
 
-const getStatusBadge = (record) => {
-  // If status is leave
-  if (record.status === "ON_LEAVE") {
+  const getStatusBadge = (record) => {
+    // If status is leave
+    if (record.status === "ON_LEAVE") {
+      return (
+        <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
+          On Leave
+        </span>
+      );
+    }
+
+    // If user has an active break (no end time yet)
+    const activeBreak = record.breaks?.find((b) => !b.end);
+    if (activeBreak) {
+      return (
+        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
+          On Break
+        </span>
+      );
+    }
+
+    // If user is checked in and checked out
+    if (record.checkIn && record.checkOut) {
+      return (
+        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+          Present
+        </span>
+      );
+    }
+
+    // If user checked in but not checked out
+    if (record.checkIn && !record.checkOut) {
+      return (
+        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+          Working
+        </span>
+      );
+    }
+
+    // Else, absent
     return (
-      <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">
-        On Leave
+      <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
+        Absent
       </span>
     );
-  }
-
-  // If user has an active break (no end time yet)
-  const activeBreak = record.breaks?.find((b) => !b.end);
-  if (activeBreak) {
-    return (
-      <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-        On Break
-      </span>
-    );
-  }
-
-  // If user is checked in and checked out
-  if (record.checkIn && record.checkOut) {
-    return (
-      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-        Present
-      </span>
-    );
-  }
-
-  // If user checked in but not checked out
-  if (record.checkIn && !record.checkOut) {
-    return (
-      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-        Working
-      </span>
-    );
-  }
-
-  // Else, absent
-  return (
-    <span className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
-      Absent
-    </span>
-  );
-};
+  };
 
   if (isLoading) {
     return <LoadingSpinner size="large" className="py-8" />;
@@ -177,7 +177,7 @@ const getStatusBadge = (record) => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {attendance?.map((record) => (
-                  <tr key={record._id} className="hover:bg-gray-50">
+                  <tr key={record?._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {formatDate(record.date)}
                     </td>

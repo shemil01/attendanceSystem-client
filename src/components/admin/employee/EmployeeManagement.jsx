@@ -8,6 +8,7 @@ import EmployeeHeader from "./EmployeeHeader";
 import EmployeeSearchAndFilter from "./EmployeeSearchAndFilter";
 import EmployeeTable from "./EmployeeTable";
 import AddEmployeeModal from "../AddEmployeeModal";
+import EmployeeDetail from "../employeeById/EmployeeDetail";
 
 
 export default function EmployeeManagement() {

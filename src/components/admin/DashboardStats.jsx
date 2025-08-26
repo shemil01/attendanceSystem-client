@@ -23,14 +23,14 @@ export default function DashboardStats() {
 
         const employees = employeesRes.data.employees;
         const leaves = leavesRes.data.leaves || leavesRes.data;
-        const attendance = attendanceRes.data.attendance ? [attendanceRes.data.attendance] : [];
+        const attendance = attendanceRes.data.attendance || [];
         const todaysLeave = todayLeav.data.leaves;
-        
+
         setStats({
           totalEmployees: employees.length,
           pendingLeaves: leaves.filter((l) => l.status === "PENDING").length,
           onLeave: todaysLeave.length,
-          activeToday: attendance.filter((a) => a.checkIn).length,
+          activeToday: attendance.length,
         });
       } catch (err) {
         console.error("Error fetching stats:", err);

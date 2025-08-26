@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useApp } from "../../context/AppContext";
-import TimeTracker from "../attendance/TimeTracker";
+import TimeTracker from "../attendance/TimeTracker/TimeTracker";
 import { Tab } from "@headlessui/react";
 import { clsx } from "../../lib/utils";
 import AttendanceHistory from "../attendance/AttendanceHistory";

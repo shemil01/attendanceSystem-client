@@ -9,7 +9,7 @@ import AttendanceOverview from "../admin/AttendanceOverview";
 import Reports from "../admin/Reports";
 import DashboardStats from "../admin/DashboardStats";
 import AttendanceHistory from "../attendance/AttendanceHistory";
-import TimeTracker from "../attendance/TimeTracker";
+import TimeTracker from "../attendance/TimeTracker/TimeTracker";
 import TodayAttendance from "../attendance/TodayAttandance";
 import SystemStats from "../admin/dashboard/SystemStats";
 import EmployeeManagement from "../admin/employee/EmployeeManagement";

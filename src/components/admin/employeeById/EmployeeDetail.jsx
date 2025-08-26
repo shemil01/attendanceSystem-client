@@ -47,17 +47,12 @@ export default function EmployeeDetail({ employeeId, onBack }) {
     { name: "Stats", icon: TrendingUp },
   ];
 
-  const stats = {
-    totalDays: history.length,
-    presentDays: history.filter((r) => r.status === "PRESENT").length,
-    attendanceRate: history.length
-      ? Math.round(
-          (history.filter((r) => r.status === "PRESENT").length /
-            history.length) *
-            100
-        )
-      : 0,
-  };
+  const totalDays = history.length;
+  const presentDays = history.filter((r) => r.status === "PRESENT").length;
+  const attendanceRate =
+    totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0;
+
+  const stats = { totalDays, presentDays, attendanceRate };
 
   if (isLoading) return <LoadingSpinner size="large" className="py-8" />;
   if (!employee)
