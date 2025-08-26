@@ -2,11 +2,11 @@
 
 import { useSession, signOut } from 'next-auth/react';
 import { Bell, LogOut, User } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { useSocket } from '@/context/SocketContext';
 
 export default function Header() {
   const { data: session } = useSession();
-  const { notifications } = useApp();
+const { notifications } = useSocket();
 
   return (
     <header className="bg-white shadow">
