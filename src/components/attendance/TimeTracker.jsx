@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useApp } from "../../context/AppContext";
 import { apiClient } from "../../lib/api";
 import toast from "react-hot-toast";
@@ -10,24 +9,41 @@ import { Play, Square, Coffee, History } from "lucide-react";
 export default function TimeTracker() {
   const { todayAttendance, timeTracker, dispatch, fetchTodayAttendance } =
     useApp();
-  const { data: session } = useSession();
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    let interval;
-    if (timeTracker.isRunning && !timeTracker.isOnBreak) {
-      interval = setInterval(() => {
-        const elapsed = Date.now() - timeTracker.startTime;
-        dispatch({ type: "UPDATE_ELAPSED_TIME", payload: elapsed });
-      }, 1000);
+    if (todayAttendance) {
+      // condition if  user has checked in but not checked out
+      if (todayAttendance.checkIn && !todayAttendance.checkOut) {
+        const checkInTime = new Date(todayAttendance.checkIn).getTime();
+
+        dispatch({ type: "START_TIMER", payload: checkInTime });
+
+        // condition if currently on break
+        const activeBreak = todayAttendance.breaks?.find((b) => !b.end);
+        if (activeBreak) {
+          dispatch({
+            type: "START_BREAK",
+            payload: new Date(activeBreak.start).getTime(),
+          });
+        } else {
+          dispatch({
+            type: "END_BREAK",
+            payload: (todayAttendance.totalBreakTime || 0) * 60000,
+          });
+        }
+      }
+
+      // if user has already checked out   stop timer
+      if (todayAttendance.checkOut) {
+        const checkOutTime = new Date(todayAttendance.checkOut).getTime();
+        dispatch({
+          type: "STOP_TIMER",
+          payload: { elapsedTime: todayAttendance.workingTime * 60000 },
+        });
+      }
     }
-    return () => clearInterval(interval);
-  }, [
-    timeTracker.isRunning,
-    timeTracker.isOnBreak,
-    timeTracker.startTime,
-    dispatch,
-  ]);
+  }, [todayAttendance, dispatch]);
 
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
