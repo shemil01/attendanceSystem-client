@@ -1,8 +1,6 @@
-// app/components/admin/EmployeeManagement.js - Updated
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { apiClient } from "../../lib/api";
 import toast from "react-hot-toast";
 import { Plus, Search, Filter, Eye, Trash2 } from "lucide-react";
@@ -17,7 +15,6 @@ export default function EmployeeManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
-  const { data: session } = useSession();
 
   useEffect(() => {
     fetchEmployees();

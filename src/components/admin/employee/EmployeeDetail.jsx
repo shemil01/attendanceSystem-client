@@ -112,7 +112,7 @@ export default function EmployeeDetail({ employeeId, onBack }) {
             )}
           </Tab.Panel>
 
-          {/* Stats */}
+          {/* stats */}
           <Tab.Panel className="grid grid-cols-2 gap-4">
             <StatsCard
               label="Present Days"

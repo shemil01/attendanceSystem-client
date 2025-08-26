@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { Tab } from "@headlessui/react";
 import { clsx } from "../../lib/utils";
 import EmployeeManagement from "../admin/EmployeeManagement";
-import LeaveApproval from "../admin/LeaveApproval";
+import LeaveApproval from "../admin/leaves/LeaveApproval";
 import AttendanceOverview from "../admin/AttendanceOverview";
 import Reports from "../admin/Reports";
 import DashboardStats from "../admin/DashboardStats";

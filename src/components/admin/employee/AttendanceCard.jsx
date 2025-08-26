@@ -9,7 +9,6 @@ export default function AttendanceCard({ record, isToday = false }) {
         })
       : "--:--";
 
-  // Format minutes to "xh ym"
   const formatMinutes = (mins) => {
     if (!mins || mins <= 0) return "0m";
     const h = Math.floor(mins / 60);
@@ -17,7 +16,7 @@ export default function AttendanceCard({ record, isToday = false }) {
     return `${h > 0 ? `${h}h ` : ""}${m}m`;
   };
 
-  // Check if currently in a break (last break has no end)
+  // Check if currently in a break 
   const ongoingBreak =
     record.breaks && record.breaks.length > 0
       ? record.breaks.some((b) => !b.end)

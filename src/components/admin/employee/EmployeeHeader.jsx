@@ -2,6 +2,7 @@
 
 import { ArrowLeft } from "lucide-react";
 
+//  employee header component
 export default function EmployeeHeader({ employee, onBack }) {
   return (
     <div className="flex items-center space-x-4 mb-6">

@@ -14,7 +14,6 @@ export default function SystemStats() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Attendance data
         const attendanceResponse = await apiClient.getAllEmployeesAttendence();
         const attendanceByDay = {};
 
@@ -32,7 +31,7 @@ export default function SystemStats() {
 
         setAttendanceData(Object.values(attendanceByDay));
 
-        // 2. Department data
+      //  Department data
         const employeesResponse = await apiClient.getAllEmployees();
         const deptCounts = {};
         employeesResponse.data.employees.forEach((emp) => {
@@ -47,11 +46,11 @@ export default function SystemStats() {
           }))
         );
 
-        // 3. Recent activity
+        // recent activity
         const leavesResponse = await apiClient.getAllLeaves();
         const activity = [];
 
-        // Recent leaves
+        // recent leaves
         leavesResponse.data.leaves.slice(-5).forEach((leave) => {
           activity.push({
             action: `requested ${leave.leaveType.toLowerCase().replace("_", " ")}`,
@@ -60,7 +59,7 @@ export default function SystemStats() {
           });
         });
 
-        // Recent attendance
+        // recent attendance
         attendanceResponse.data.attendance.slice(-5).forEach((record) => {
           activity.push({
             action: record.checkIn ? "checked in" : "absent",
@@ -69,7 +68,7 @@ export default function SystemStats() {
           });
         });
 
-        // Sort latest first
+        // sort latest first
         activity.sort((a, b) => new Date(b.time) - new Date(a.time));
         setRecentActivity(activity.slice(0, 5));
       } catch (err) {
