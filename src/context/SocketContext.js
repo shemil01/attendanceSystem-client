@@ -1,69 +1,42 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { socketClient } from '../lib/socket';
+import { createContext, useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useSession } from "next-auth/react";
 
 const SocketContext = createContext();
 
-export const useSocket = () => {
-  const context = useContext(SocketContext);
-  if (!context) {
-    throw new Error('useSocket must be used within a SocketProvider');
-  }
-  return context;
-};
-
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [isConnected, setIsConnected] = useState(false);
   const { data: session } = useSession();
+  const [socket, setSocket] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    if (session?.accessToken) {
-      try {
-        // Connect to Socket.io
-        const socketInstance = socketClient.connect(session.accessToken);
-        setSocket(socketInstance);
+    if (!session?.user?.id) return;
 
-        // Set up event listeners
-        const handleConnect = () => {
-          console.log('Socket connected');
-          setIsConnected(true);
-          
-          // Join user's personal room after connection
-          if (session.user?.id) {
-            socketInstance.emit('join-user-room', session.user.id);
-          }
-        };
+    const socketInstance = io(
+      "https://attendancesystem-server-joov.onrender.com"
+    );
+    setSocket(socketInstance);
 
-        const handleDisconnect = () => {
-          setIsConnected(false);
-        };
+    // Join personal room
+    socketInstance.emit("join-user", session.user.id);
 
-        socketInstance.on('connect', handleConnect);
-        socketInstance.on('disconnect', handleDisconnect);
+    // Listen for notifications
+    socketInstance.on("new-notification", (notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+    });
 
-        // Cleanup function
-        return () => {
-          socketInstance.off('connect', handleConnect);
-          socketInstance.off('disconnect', handleDisconnect);
-          socketClient.disconnect();
-        };
-      } catch (error) {
-        console.error('Failed to connect socket:', error);
-      }
-    }
-  }, [session]);
-
-  const value = {
-    socket,
-    isConnected: isConnected && socket?.connected
-  };
+    return () => {
+      socketInstance.disconnect();
+    };
+  }, [session?.user?.id]);
 
   return (
-    <SocketContext.Provider value={value}>
+    <SocketContext.Provider value={{ socket, notifications, setNotifications }}>
       {children}
     </SocketContext.Provider>
   );
 };
+
+export const useSocket = () => useContext(SocketContext);
