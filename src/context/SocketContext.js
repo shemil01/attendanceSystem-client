@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { socketClient } from '../lib/socket';
 
-const SocketContext = createContext();
+const SocketContext = createContext(null);
 
 export const useSocket = () => {
   const context = useContext(SocketContext);
@@ -20,50 +20,38 @@ export const SocketProvider = ({ children }) => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (session?.accessToken) {
-      try {
-        // Connect to Socket.io
-        const socketInstance = socketClient.connect(session.accessToken);
-        setSocket(socketInstance);
+    if (!session?.accessToken) return;
 
-        // Set up event listeners
-        const handleConnect = () => {
-          console.log('Socket connected');
-          setIsConnected(true);
-          
-          // Join user's personal room after connection
-          if (session.user?.id) {
-            socketInstance.emit('join-user-room', session.user.id);
-          }
-        };
+    const socketInstance = socketClient.connect(session.accessToken);
+    setSocket(socketInstance);
 
-        const handleDisconnect = () => {
-          console.log('Socket disconnected');
-          setIsConnected(false);
-        };
+    const handleConnect = () => {
+      setIsConnected(true);
+      console.log('🔗 Socket connected');
 
-        socketInstance.on('connect', handleConnect);
-        socketInstance.on('disconnect', handleDisconnect);
-
-        // Cleanup function
-        return () => {
-          socketInstance.off('connect', handleConnect);
-          socketInstance.off('disconnect', handleDisconnect);
-          socketClient.disconnect();
-        };
-      } catch (error) {
-        console.error('Failed to connect socket:', error);
+      if (session.user?.id) {
+        socketInstance.emit('join-user-room', session.user.id);
+        console.log(`Joined room: user-${session.user.id}`);
       }
-    }
-  }, [session]);
+    };
 
-  const value = {
-    socket,
-    isConnected: isConnected && socket?.connected
-  };
+    const handleDisconnect = () => {
+      setIsConnected(false);
+      console.log('🔌 Socket disconnected');
+    };
+
+    socketInstance.on('connect', handleConnect);
+    socketInstance.on('disconnect', handleDisconnect);
+
+    return () => {
+      socketInstance.off('connect', handleConnect);
+      socketInstance.off('disconnect', handleDisconnect);
+      socketClient.disconnect();
+    };
+  }, [session?.accessToken, session?.user?.id]);
 
   return (
-    <SocketContext.Provider value={value}>
+    <SocketContext.Provider value={{ socket, isConnected }}>
       {children}
     </SocketContext.Provider>
   );

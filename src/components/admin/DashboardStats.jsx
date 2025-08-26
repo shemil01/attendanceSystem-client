@@ -18,13 +18,14 @@ export default function DashboardStats() {
             apiClient.getAllEmployees(),
             apiClient.getAllLeaves(),
             apiClient.getTodayLeaves(),
-            apiClient.getAllEmployeesAttendence(),
+            apiClient.getTodayAttendance(),
           ]);
 
         const employees = employeesRes.data.employees;
         const leaves = leavesRes.data.leaves || leavesRes.data;
-        const attendance = attendanceRes.data.attendance || attendanceRes.data;
+        const attendance = attendanceRes.data.attendance ? [response.data.attendance] : [];
         const todaysLeave = todayLeav.data.leaves;
+        console.log('attandance:',todaysLeave)
         
         setStats({
           totalEmployees: employees.length,

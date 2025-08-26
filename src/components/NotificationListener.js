@@ -10,26 +10,23 @@ export default function NotificationListener() {
   const { socket } = useSocket();
 
   useEffect(() => {
-    if (socket && session?.user?.id) {
-      const handleNotification = (notification) => {
-        console.log('New notification received:', notification);
-        
-        // Show toast notification
-        toast.success(notification.message, {
-          duration: 5000,
-          icon: notification.type === 'LEAVE_APPROVAL' ? '✅' : '❌'
-        });
-      };
+    if (!socket || !session?.user?.id) return;
 
-      // Listen for new notifications
-      socket.on('new-notification', handleNotification);
+    const handleNotification = (notification) => {
+      console.log('📩 New notification received:', notification);
 
-      // Cleanup
-      return () => {
-        socket.off('new-notification', handleNotification);
-      };
-    }
-  }, [socket, session]);
+      toast.success(notification.message, {
+        duration: 5000,
+        icon: notification.type === 'LEAVE_APPROVAL' ? '✅' : '❌',
+      });
+    };
+
+    socket.on('new-notification', handleNotification);
+
+    return () => {
+      socket.off('new-notification', handleNotification);
+    };
+  }, [socket, session?.user?.id]);
 
   return null;
 }
