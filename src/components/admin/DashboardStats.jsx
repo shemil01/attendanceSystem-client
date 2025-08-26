@@ -30,6 +30,7 @@ console.log(leaves)
 console.log(employees)
 console.log(attendance)
 console.log(todaysLeave)
+console.log(stats)
 
         setStats({
           totalEmployees: employees.length,
