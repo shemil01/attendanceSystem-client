@@ -40,37 +40,61 @@ export default function AttendanceOverview() {
     <div>
       {/* Table of Attendance */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-200">
-          <thead className="bg-gray-100 text-gray-700">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-left">Date</th>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Role</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Check-In</th>
-              <th className="px-4 py-2">Check-Out</th>
-              <th className="px-4 py-2">Working Time</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Role
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Check-In
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Check-Out
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Working Time
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white divide-y divide-gray-200">
             {attendanceData.length > 0 ? (
               attendanceData.map((a) => (
-                <tr key={a._id} className="border-t">
-                  <td className="px-4 py-2">{formatDate(a.date)}</td>
-                  <td className="px-4 py-2">{a?.employee?.name || "N/A"}</td>
-                  <td className="px-4 py-2">{a?.employee?.role || "N/A"}</td>
-                  <td className="px-4 py-2">{a.status}</td>
-                  <td className="px-4 py-2">
+                <tr key={a._id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {formatDate(a.date)}{" "}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {a?.employee?.name || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {a?.employee?.role || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {a.status}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {a.checkIn
                       ? new Date(a.checkIn).toLocaleTimeString()
                       : "--"}
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {a.checkOut
                       ? new Date(a.checkOut).toLocaleTimeString()
                       : "--"}
                   </td>
-                  <td className="px-4 py-2">{a.workingTime} mins</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {a.workingTime}
+                  </td>
                 </tr>
               ))
             ) : (
