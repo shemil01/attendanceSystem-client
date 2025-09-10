@@ -29,7 +29,7 @@ export const authOptions = {
           }
 
           if (!res.ok || data.status !== "success") {
-            return null; // failed login
+            return null; 
           }
 
           return {
