@@ -9,12 +9,10 @@ import { Calendar, Clock, AlertCircle } from "lucide-react";
 export default function TodayAttendance() {
   const [attendance, setAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     fetchTodayAttendance();
-  }, [selectedMonth, selectedYear]);
+  }, []);
 
   const fetchTodayAttendance = async () => {
     try {
@@ -28,25 +26,7 @@ export default function TodayAttendance() {
       setIsLoading(false);
     }
   };
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
-  const years = Array.from(
-    { length: 5 },
-    (_, i) => new Date().getFullYear() - i
-  );
 
   const getStatusBadge = (record) => {
     // If status is leave
@@ -103,35 +83,9 @@ export default function TodayAttendance() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h3 className="text-lg font-medium text-gray-900">
-            Attendance History
+            Today's Attendance Records
           </h3>
           <p className="text-sm text-gray-500">View your attendance records</p>
-        </div>
-
-        <div className="flex gap-2">
-          <select
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-            className="input-field p-2"
-          >
-            {months.map((month, index) => (
-              <option key={month} value={index}>
-                {month}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-            className="input-field"
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
 
@@ -141,10 +95,7 @@ export default function TodayAttendance() {
           <h3 className="mt-2 text-sm font-medium text-gray-900">
             No attendance records
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            No attendance records found for {months[selectedMonth]}{" "}
-            {selectedYear}
-          </p>
+         
         </div>
       ) : (
         <div className="bg-white shadow overflow-hidden rounded-lg">
@@ -165,10 +116,13 @@ export default function TodayAttendance() {
                     Check Out
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Working Hours
+                    Total Working Time
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Breaks
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Total Break Time
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
@@ -211,6 +165,11 @@ export default function TodayAttendance() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {record.breaks?.length || 0}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {record.totalBreakTime
+                        ? `${record.totalBreakTime} mins`
+                        : "--:--"}{" "}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(record)}

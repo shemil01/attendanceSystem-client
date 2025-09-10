@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useSession, signOut } from 'next-auth/react';
-import { Bell, LogOut, User } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { useSession, signOut } from "next-auth/react";
+import { Bell, LogOut, User } from "lucide-react";
+import { useApp } from "../../context/AppContext";
+import ReminderMessage from "../ReminderAlert";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -17,7 +18,7 @@ export default function Header() {
               Attendance System
             </h1>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button className="p-2 text-gray-400 hover:text-gray-500">
@@ -29,7 +30,7 @@ export default function Header() {
                 )}
               </button>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <div className="flex items-center">
                 <User className="h-8 w-8 rounded-full bg-gray-200 p-1 text-gray-600" />
@@ -42,7 +43,7 @@ export default function Header() {
                   </p>
                 </div>
               </div>
-              
+
               <button
                 onClick={() => signOut()}
                 className="p-2 text-gray-400 hover:text-gray-500"
@@ -54,6 +55,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      <ReminderMessage />
     </header>
   );
 }

@@ -53,7 +53,7 @@ const LeaveCard = ({ leave, loading, onUpdate }) => {
             <p className="mt-1 text-gray-700">{leave.reason}</p>
           </div>
           <div className="text-xs text-gray-500">
-            Applied on: {formatDate(leave.appliedDate)}
+            Applied on: {formatDate(leave.createdAt)}
           </div>
         </div>
 

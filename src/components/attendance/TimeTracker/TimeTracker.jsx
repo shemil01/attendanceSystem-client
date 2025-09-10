@@ -9,7 +9,7 @@ import ActionButtons from "./ActionButton";
 import TodayRecord from "./TodayRecord";
 
 export default function TimeTracker({ currentUserId }) {
-  const { todayAttendance, fetchTodayAttendance } = useApp();
+  const { todayAttendance, fetchTodayAttendance, dispatch } = useApp();
   const [isProcessing, setIsProcessing] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [breakTime, setBreakTime] = useState(0);
@@ -33,15 +33,16 @@ export default function TimeTracker({ currentUserId }) {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
-const getBaseElapsedTime = (record) => {
-  if (!record?.checkIn) return 0;
-  const now = record.checkOut ? new Date(record.checkOut).getTime() : Date.now();
-  const checkInTime = new Date(record.checkIn).getTime();
+  const getBaseElapsedTime = (record) => {
+    if (!record?.checkIn) return 0;
+    const now = record.checkOut
+      ? new Date(record.checkOut).getTime()
+      : Date.now();
+    const checkInTime = new Date(record.checkIn).getTime();
 
-  // Keep counting time even during break
-  return now - checkInTime;
-};
-
+    // Keep counting time even during break
+    return now - checkInTime;
+  };
 
   const getBaseBreakTime = (record) => {
     if (!record?.breaks) return 0;
@@ -72,6 +73,7 @@ const getBaseElapsedTime = (record) => {
       await apiClient.checkIn();
       toast.success("Checked in successfully");
       fetchTodayAttendance();
+      dispatch({ type: "SET_REMINDERS", payload: [] });
     } catch (error) {
       toast.error(error.message || "Failed to check in");
     } finally {
@@ -119,7 +121,13 @@ const getBaseElapsedTime = (record) => {
         <StatusCard
           title="Status"
           value={
-            isCheckedOut ? "Checked Out" : isOnBreak ? "On Break" : isCheckedIn ? "Working" : "Not Checked In"
+            isCheckedOut
+              ? "Checked Out"
+              : isOnBreak
+              ? "On Break"
+              : isCheckedIn
+              ? "Working"
+              : "Not Checked In"
           }
           bgColor="bg-blue-50"
           textColor="text-blue-800"
@@ -150,7 +158,11 @@ const getBaseElapsedTime = (record) => {
       />
 
       {/* Today's Record */}
-      <TodayRecord record={userTodayAttendance} breakTime={breakTime} formatTime={formatTime} />
+      <TodayRecord
+        record={userTodayAttendance}
+        breakTime={breakTime}
+        formatTime={formatTime}
+      />
     </div>
   );
 }

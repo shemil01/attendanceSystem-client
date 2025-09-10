@@ -1,33 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { apiClient } from "../../lib/api";
-import { formatDate, calculateWorkingHours } from "../../lib/utils";
+import { formatDate, formatTime } from "../../lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Calendar, Clock, AlertCircle } from "lucide-react";
 
-export default function   AttendanceHistory() {
+export default function AttendanceHistory() {
   const [attendance, setAttendance] = useState([]);
+  const [filteredAttendance, setFilteredAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const { data: session } = useSession();
+
+  // default is "All"
+  const [selectedMonth, setSelectedMonth] = useState("all");
+  const [selectedYear, setSelectedYear] = useState("all");
 
   useEffect(() => {
     fetchAttendanceHistory();
-  }, [selectedMonth, selectedYear]);
+  }, []);
+
+  useEffect(() => {
+    filterAttendance();
+  }, [selectedMonth, selectedYear, attendance]);
 
   const fetchAttendanceHistory = async () => {
     try {
       setIsLoading(true);
-      const startDate = new Date(selectedYear, selectedMonth, 1)
-        .toISOString()
-        .split("T")[0];
-      const endDate = new Date(selectedYear, selectedMonth + 1, 0)
-        .toISOString()
-        .split("T")[0];
-
       const response = await apiClient.getAttendanceHistory();
       setAttendance(response.data.attendance || []);
     } catch (error) {
@@ -35,6 +33,24 @@ export default function   AttendanceHistory() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const filterAttendance = () => {
+    if (selectedMonth === "all" && selectedYear === "all") {
+      setFilteredAttendance(attendance);
+      return;
+    }
+
+    const filtered = attendance.filter((record) => {
+      const date = new Date(record.date);
+      const monthMatches =
+        selectedMonth === "all" || date.getMonth() === parseInt(selectedMonth);
+      const yearMatches =
+        selectedYear === "all" || date.getFullYear() === parseInt(selectedYear);
+      return monthMatches && yearMatches;
+    });
+
+    setFilteredAttendance(filtered);
   };
 
   const months = [
@@ -101,11 +117,13 @@ export default function   AttendanceHistory() {
         </div>
 
         <div className="flex gap-2">
+          {/* Month Dropdown */}
           <select
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+            onChange={(e) => setSelectedMonth(e.target.value)}
             className="input-field p-2"
           >
+            <option value="all">All Months</option>
             {months.map((month, index) => (
               <option key={month} value={index}>
                 {month}
@@ -113,11 +131,13 @@ export default function   AttendanceHistory() {
             ))}
           </select>
 
+          {/* Year Dropdown */}
           <select
             value={selectedYear}
-            onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-            className="input-field"
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="input-field p-2"
           >
+            <option value="all">All Years</option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -127,15 +147,16 @@ export default function   AttendanceHistory() {
         </div>
       </div>
 
-      {attendance.length === 0 ? (
+      {filteredAttendance.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <Calendar className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-sm font-medium text-gray-900">
             No attendance records
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            No attendance records found for {months[selectedMonth]}{" "}
-            {selectedYear}
+            No attendance records found for{" "}
+            {selectedMonth === "all" ? "All Months" : months[selectedMonth]}{" "}
+            {selectedYear === "all" ? "All Years" : selectedYear}
           </p>
         </div>
       ) : (
@@ -154,10 +175,13 @@ export default function   AttendanceHistory() {
                     Check Out
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Working Hours
+                    Total Working Time
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Breaks
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Total Break Time
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
@@ -165,7 +189,7 @@ export default function   AttendanceHistory() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {attendance.map((record) => (
+                {filteredAttendance.map((record) => (
                   <tr key={record._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {formatDate(record.date)}
@@ -181,21 +205,13 @@ export default function   AttendanceHistory() {
                         : "--:--"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {record.checkIn && record.checkOut ? (
-                        <div className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1 text-gray-400" />
-                          {calculateWorkingHours(
-                            record.checkIn,
-                            record.checkOut,
-                            record.breaks
-                          )}
-                        </div>
-                      ) : (
-                        "--:--"
-                      )}
+                      {formatTime(record?.workingTime)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {record.breaks?.length || 0}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {formatTime(record?.totalBreakTime)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(record)}

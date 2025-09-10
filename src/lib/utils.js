@@ -46,3 +46,13 @@ export function calculateWorkingHours(checkIn, checkOut, breaks = []) {
   
   return `${hours}:${minutes.toString().padStart(2, '0')}`;
 }
+
+
+export const formatTime = (minutes) => {
+  if (!minutes) return "--:--";
+  if (minutes < 60) return `${minutes} min`;
+
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return mins === 0 ? `${hours}h` : `${hours}h ${mins}m`;
+};

@@ -25,17 +25,16 @@ export default function ActionButtons({
 
   return (
     <div className="flex justify-center space-x-4">
-      {!isCheckedOut &&
-        isCheckedIn(
-          <button
-            onClick={onBreak}
-            disabled={isProcessing}
-            className="inline-flex items-center px-6 py-3 text-base font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Coffee className="mr-2 h-5 w-5" />
-            {isOnBreak ? "End Break" : "Take Break"}
-          </button>
-        )}
+      {!isCheckedOut && isCheckedIn && (
+        <button
+          onClick={onBreak}
+          disabled={isProcessing}
+          className="inline-flex items-center px-6 py-3 text-base font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Coffee className="mr-2 h-5 w-5" />
+          {isOnBreak ? "End Break" : "Take Break"}
+        </button>
+      )}
 
       {!isCheckedOut && (
         <button

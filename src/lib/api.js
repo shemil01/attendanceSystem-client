@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 
 const api = axios.create({
   // baseURL: process.env.NEXT_PUBLIC_API_URL,
-  baseURL: "https://attendancesystem-server-joov.onrender.com/api",
+  baseURL: "https://attendance-system-client-dun.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -150,6 +150,4 @@ export const apiClient = {
     request(`/attendance/employee/${employeeId}?${params}`, {
       method: "GET",
     }),
-
-
 };

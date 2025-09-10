@@ -16,7 +16,7 @@ export default function EmployeeDashboard() {
   const { data: session } = useSession();
 
   const tabs = [
-    { name: "Time Tracker", component: TimeTracker },
+    { name: "Mark Attendance", component: TimeTracker },
     { name: "Attendance History", component: AttendanceHistory },
     { name: "Leave History", component: LeaveHistory },
     { name: "Leave Request", component: LeaveRequestForm },
