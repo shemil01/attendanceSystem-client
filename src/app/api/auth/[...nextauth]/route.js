@@ -12,7 +12,7 @@ export const authOptions = {
       async authorize(credentials) {
         try {
           const res = await fetch(
-            `https://attendance-system-client-dun.vercel.app/api/login`,
+            `https://attendancesystem-server-joov.onrender.com/api/login`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

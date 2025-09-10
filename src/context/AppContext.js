@@ -106,7 +106,7 @@ export function AppProvider({ children }) {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const response = await fetch(
-        `https://attendance-system-client-dun.vercel.app/api/attendance-one/today`,
+        `https://attendancesystem-server-joov.onrender.com/api/attendance-one/today`,
         {
           headers: {
             Authorization: `Bearer ${session.accessToken}`,
