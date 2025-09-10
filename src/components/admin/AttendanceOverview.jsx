@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { apiClient } from "../../lib/api";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatTime } from "@/lib/utils";
 
 export default function AttendanceOverview() {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -93,7 +93,7 @@ export default function AttendanceOverview() {
                       : "--"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {a.workingTime}
+                    {formatTime(a.workingTime)}
                   </td>
                 </tr>
               ))
