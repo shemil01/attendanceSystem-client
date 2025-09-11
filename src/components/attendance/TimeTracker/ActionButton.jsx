@@ -36,7 +36,7 @@ export default function ActionButtons({
         </button>
       )}
 
-      {!isCheckedOut && (
+      {!isCheckedOut && !isOnBreak && (
         <button
           onClick={onCheckOut}
           disabled={isProcessing}
