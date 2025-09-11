@@ -11,14 +11,11 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const res = await fetch(
-            `https://attendancesystem-server-joov.onrender.com/api/login`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(credentials),
-            }
-          );
+          const res = await fetch(`https://attendancesystem-server-joov.onrender.com/api/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          });
 
           const text = await res.text();
           let data;
@@ -29,7 +26,7 @@ export const authOptions = {
           }
 
           if (!res.ok || data.status !== "success") {
-            return null; 
+            return null;
           }
 
           return {
@@ -56,6 +53,7 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
+        session.user.id = token.sub;
         session.user.role = token.role;
         session.accessToken = token.accessToken;
       }

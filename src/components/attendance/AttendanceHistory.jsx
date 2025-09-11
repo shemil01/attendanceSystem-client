@@ -5,6 +5,7 @@ import { apiClient } from "../../lib/api";
 import { formatDate, formatTime } from "../../lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Calendar, Clock, AlertCircle } from "lucide-react";
+import AttendanceChart from "./AttandanceChart";
 
 export default function AttendanceHistory() {
   const [attendance, setAttendance] = useState([]);
@@ -224,19 +225,7 @@ export default function AttendanceHistory() {
         </div>
       )}
 
-      <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            <AlertCircle className="h-5 w-5 text-blue-400" />
-          </div>
-          <div className="ml-3">
-            <p className="text-sm text-blue-700">
-              Working hours are calculated by subtracting break times from the
-              total time between check-in and check-out.
-            </p>
-          </div>
-        </div>
-      </div>
+      <AttendanceChart />
     </div>
   );
 }
