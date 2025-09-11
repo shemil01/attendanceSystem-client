@@ -15,6 +15,7 @@ export default function EmployeeDetail({ employeeId, onBack }) {
   const [employee, setEmployee] = useState(null);
   const [attendance, setAttendance] = useState(null);
   const [history, setHistory] = useState([]);
+  const [statData, setStatData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -34,6 +35,8 @@ export default function EmployeeDetail({ employeeId, onBack }) {
       startDate.setDate(startDate.getDate() - 7);
       const historyResponse = empResponse.data.history;
       setHistory(historyResponse);
+      const statResponse = empResponse.data.stats;
+      setStatData(statResponse);
     } catch (error) {
       console.error("Error fetching employee data:", error);
     } finally {
@@ -47,10 +50,9 @@ export default function EmployeeDetail({ employeeId, onBack }) {
     { name: "Stats", icon: TrendingUp },
   ];
 
-  const totalDays = history.length;
-  const presentDays = history.filter((r) => r.status === "PRESENT").length;
-  const attendanceRate =
-    totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0;
+  const totalDays = statData.totalDays;
+  const presentDays = statData.presentDays;
+  const attendanceRate = statData.attendanceRate;
 
   const stats = { totalDays, presentDays, attendanceRate };
 
@@ -108,12 +110,18 @@ export default function EmployeeDetail({ employeeId, onBack }) {
           </Tab.Panel>
 
           {/* stats */}
-          <Tab.Panel className="grid grid-cols-2 gap-4">
+          <Tab.Panel className="grid grid-cols-3 gap-4">
+            <StatsCard
+              label="Total Days"
+              value={stats.totalDays}
+              color="blue"
+            />
             <StatsCard
               label="Present Days"
               value={stats.presentDays}
               color="blue"
             />
+
             <StatsCard
               label="Attendance Rate"
               value={`${stats.attendanceRate}%`}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Tab } from "@headlessui/react";
 import { clsx } from "../../lib/utils";
@@ -13,6 +13,7 @@ import TimeTracker from "../attendance/TimeTracker/TimeTracker";
 import TodayAttendance from "../attendance/TodayAttandance";
 import SystemStats from "../admin/dashboard/SystemStats";
 import EmployeeManagement from "../admin/employee/EmployeeManagement";
+import TodayLeaves from "../admin/leaves/LeaveTable";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState(0);
@@ -24,6 +25,7 @@ export default function AdminDashboard() {
     { name: "Admin Attendance History", component: AttendanceHistory },
     { name: "Employees", component: EmployeeManagement },
     { name: "Today's Attendance", component: TodayAttendance },
+    { name: "Today's Leave", component: TodayLeaves },
     { name: "Leave Requests", component: LeaveApproval },
     { name: "All Attendance", component: AttendanceOverview },
     { name: "Reports", component: Reports },
