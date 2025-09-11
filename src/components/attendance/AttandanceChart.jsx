@@ -33,7 +33,6 @@ export default function AttendanceChart() {
   if (status === "loading" || loading) return <p>Loading...</p>;
   if (status === "unauthenticated") return <p>Please log in</p>;
   if (!stats) return <p>No stats available</p>;
-  console.log(stats);
   return (
     <div className="grid grid-cols-3 gap-4">
       <StatsCard label="Total Days" value={stats.totalDays} color="blue" />
