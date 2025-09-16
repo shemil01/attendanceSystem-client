@@ -40,7 +40,7 @@ export default function TimeTracker({ currentUserId }) {
       : Date.now();
     const checkInTime = new Date(record.checkIn).getTime();
 
-    // Keep counting time even during break
+    // keep counting time even during break
     return now - checkInTime;
   };
 

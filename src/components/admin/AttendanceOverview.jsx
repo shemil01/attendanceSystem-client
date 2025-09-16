@@ -20,7 +20,7 @@ export default function AttendanceOverview() {
         page,
         limit: 50,
       });
-      setAttendanceData(res.data.attendance || []);
+setAttendanceData((res.data.attendance || []).reverse());
       setPagination(res.pagination);
     } catch (error) {
       console.error("Error fetching attendance:", error);
