@@ -4,25 +4,33 @@ import { useEffect, useState } from "react";
 import { apiClient } from "../../lib/api";
 import { formatDate, formatTime } from "@/lib/utils";
 import toast from "react-hot-toast";
+import Pagination from "../ui/Pagination";
 
 export default function AttendanceOverview() {
   const [attendanceData, setAttendanceData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pages: 1,
-    total: 0,
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const dataPerPage = 8;
 
-  const fetchAttendance = async (page = 1) => {
+
+    const totalPages = Math.ceil(attendanceData.length / dataPerPage);
+  const startIndex = (currentPage - 1) * dataPerPage;
+  const currentData = attendanceData.slice(startIndex, startIndex + dataPerPage);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  // const [pagination, setPagination] = useState({
+  //   current: 1,
+  //   pages: 1,
+  //   total: 0,
+  // });
+
+  const fetchAttendance = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.getAllEmployeesAttendence({
-        page,
-        limit: 50,
-      });
+      const res = await apiClient.getAllEmployeesAttendence();
       setAttendanceData((res.data.attendance || []).reverse());
-      setPagination(res.pagination);
+      // setPagination(res.pagination);
     } catch (error) {
       toast.error("Error fetching attendance");
     } finally {
@@ -68,8 +76,8 @@ export default function AttendanceOverview() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {attendanceData.length > 0 ? (
-              attendanceData.map((a) => (
+            {currentData.length > 0 ? (
+              currentData.map((a) => (
                 <tr key={a._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {formatDate(a.date)}{" "}
@@ -110,7 +118,7 @@ export default function AttendanceOverview() {
       </div>
 
       {/* Pagination */}
-      {pagination.pages > 1 && (
+      {/* {pagination.pages > 1 && (
         <div className="mt-4 flex justify-center space-x-2">
           {Array.from({ length: pagination.pages }, (_, i) => (
             <button
@@ -126,7 +134,12 @@ export default function AttendanceOverview() {
             </button>
           ))}
         </div>
-      )}
+      )} */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
     </div>
   );
 }
