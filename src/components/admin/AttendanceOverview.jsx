@@ -12,25 +12,21 @@ export default function AttendanceOverview() {
   const [currentPage, setCurrentPage] = useState(1);
   const dataPerPage = 8;
 
-
-    const totalPages = Math.ceil(attendanceData.length / dataPerPage);
+  const totalPages = Math.ceil(attendanceData.length / dataPerPage);
   const startIndex = (currentPage - 1) * dataPerPage;
-  const currentData = attendanceData.slice(startIndex, startIndex + dataPerPage);
+  const currentData = attendanceData.slice(
+    startIndex,
+    startIndex + dataPerPage
+  );
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  // const [pagination, setPagination] = useState({
-  //   current: 1,
-  //   pages: 1,
-  //   total: 0,
-  // });
 
   const fetchAttendance = async () => {
     setLoading(true);
     try {
       const res = await apiClient.getAllEmployeesAttendence();
       setAttendanceData((res.data.attendance || []).reverse());
-      // setPagination(res.pagination);
     } catch (error) {
       toast.error("Error fetching attendance");
     } finally {
@@ -116,30 +112,12 @@ export default function AttendanceOverview() {
           </tbody>
         </table>
       </div>
-
-      {/* Pagination */}
-      {/* {pagination.pages > 1 && (
-        <div className="mt-4 flex justify-center space-x-2">
-          {Array.from({ length: pagination.pages }, (_, i) => (
-            <button
-              key={i}
-              className={`px-3 py-1 rounded ${
-                pagination.current === i + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => fetchAttendance(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-      )} */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+      {/* pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
