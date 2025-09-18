@@ -15,7 +15,7 @@ export default function AttendanceHistory() {
   const [isLoading, setIsLoading] = useState(true);
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const dataPerPage = 8;
+  const dataPerPage = 6;
 
   const totalPages = Math.ceil(filteredAttendance.length / dataPerPage);
   const startIndex = (currentPage - 1) * dataPerPage;
