@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function LoginForm() {
+export default function LoginForm() { 
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { apiClient } from "../../lib/api";
 import { formatDate, formatTime } from "@/lib/utils";
+import toast from "react-hot-toast";
 
 export default function AttendanceOverview() {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -20,10 +21,10 @@ export default function AttendanceOverview() {
         page,
         limit: 50,
       });
-setAttendanceData((res.data.attendance || []).reverse());
+      setAttendanceData((res.data.attendance || []).reverse());
       setPagination(res.pagination);
     } catch (error) {
-      console.error("Error fetching attendance:", error);
+      toast.error("Error fetching attendance");
     } finally {
       setLoading(false);
     }

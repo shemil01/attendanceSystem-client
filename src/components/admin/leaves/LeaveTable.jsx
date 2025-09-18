@@ -5,6 +5,7 @@ import { Calendar } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import toast from "react-hot-toast";
 
 export default function TodayLeaves() {
   const [leaves, setLeaves] = useState([]);
@@ -20,7 +21,7 @@ export default function TodayLeaves() {
       const response = await apiClient.getTodayLeaves();
       setLeaves(response.data.leaves || []);
     } catch (error) {
-      console.error("Error fetching leaves:", error);
+      toast.error("Error fetching leaves");
     } finally {
       setIsLoading(false);
     }

@@ -10,6 +10,7 @@ import EmployeeHeader from "./EmployeeHeader";
 import AttendanceCard from "./AttendanceCard";
 import StatsCard from "./StatsCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import toast from "react-hot-toast";
 
 export default function EmployeeDetail({ employeeId, onBack }) {
   const [employee, setEmployee] = useState(null);
@@ -38,7 +39,7 @@ export default function EmployeeDetail({ employeeId, onBack }) {
       const statResponse = empResponse.data.stats;
       setStatData(statResponse);
     } catch (error) {
-      console.error("Error fetching employee data:", error);
+      toast.error("Error fetching employee data:");
     } finally {
       setIsLoading(false);
     }

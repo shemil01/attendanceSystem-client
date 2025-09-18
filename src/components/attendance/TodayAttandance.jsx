@@ -5,6 +5,7 @@ import { apiClient } from "../../lib/api";
 import { formatDate, calculateWorkingHours } from "../../lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Calendar, Clock, AlertCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function TodayAttendance() {
   const [attendance, setAttendance] = useState([]);
@@ -21,7 +22,7 @@ export default function TodayAttendance() {
       // Wrap single attendance object in an array
       setAttendance(response.data.attendance);
     } catch (error) {
-      console.error("Error fetching attendance history:", error);
+      toast.error("Error fetching attendance history:", error);
     } finally {
       setIsLoading(false);
     }

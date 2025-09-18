@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { apiClient } from "../../lib/api";
 import toast from "react-hot-toast";
 import { Calendar, Clock, AlertCircle } from "lucide-react";
+import LeaveBalanceCard from "./ui/LeaveBalanceCard";
 
 export default function LeaveRequestForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -195,48 +196,7 @@ export default function LeaveRequestForm() {
         </div>
       </form>
 
-      <div className="bg-white shadow rounded-lg p-6">
-        <h4 className="text-md font-medium text-gray-900 mb-4">
-          Leave Balance
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <div className="flex items-center">
-              <Calendar className="h-6 w-6 text-blue-600 mr-2" />
-              <div>
-                <p className="text-sm font-medium text-blue-800">Sick Leave</p>
-                <p className="text-2xl font-semibold text-blue-900">12 days</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-green-50 p-4 rounded-lg">
-            <div className="flex items-center">
-              <Calendar className="h-6 w-6 text-green-600 mr-2" />
-              <div>
-                <p className="text-sm font-medium text-green-800">
-                  Casual Leave
-                </p>
-                <p className="text-2xl font-semibold text-green-900">8 days</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-purple-50 p-4 rounded-lg">
-            <div className="flex items-center">
-              <Calendar className="h-6 w-6 text-purple-600 mr-2" />
-              <div>
-                <p className="text-sm font-medium text-purple-800">
-                  Earned Leave
-                </p>
-                <p className="text-2xl font-semibold text-purple-900">
-                  15 days
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <LeaveBalanceCard />
     </div>
   );
 }

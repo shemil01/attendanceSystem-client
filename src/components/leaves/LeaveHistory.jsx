@@ -5,6 +5,7 @@ import { apiClient } from "../../lib/api";
 import { formatDate } from "../../lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Calendar, AlertCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function LeaveHistory() {
   const [leaves, setLeaves] = useState([]);
@@ -23,7 +24,7 @@ export default function LeaveHistory() {
       const response = await apiClient.getMyLeaves();
       setLeaves(response.data.leaves || []);
     } catch (error) {
-      console.error("Error fetching leave history:", error);
+      toast.error("Error fetching leave history:", error);
     } finally {
       setIsLoading(false);
     }

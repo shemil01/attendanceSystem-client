@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { apiClient } from "../../lib/api";
 import { formatDate, formatTime } from "../../lib/utils";
 import LoadingSpinner from "../ui/LoadingSpinner";
-import { Calendar, Clock, AlertCircle } from "lucide-react";
+import { Calendar } from "lucide-react";
 import AttendanceChart from "./AttandanceChart";
+import toast from "react-hot-toast";
 
 export default function AttendanceHistory() {
   const [attendance, setAttendance] = useState([]);
@@ -30,7 +31,7 @@ export default function AttendanceHistory() {
       const response = await apiClient.getAttendanceHistory();
       setAttendance(response.data.attendance || []);
     } catch (error) {
-      console.error("Error fetching attendance history:", error);
+      toast.error("Error fetching attendance history:", error);
     } finally {
       setIsLoading(false);
     }

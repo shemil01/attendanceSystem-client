@@ -18,7 +18,6 @@ const LeaveApproval = () => {
       const res = await apiClient.getAllLeaves({ status: "PENDING" });
       setPendingLeaves(res.data.leaves || []);
     } catch (err) {
-      console.error(err);
       setError("Failed to fetch leave requests");
     }
   };

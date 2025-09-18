@@ -1,6 +1,7 @@
 "use client";
 import { apiClient } from "@/lib/api";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function DashboardStats() {
   const [stats, setStats] = useState({
@@ -33,7 +34,7 @@ export default function DashboardStats() {
           activeToday: attendance.length,
         });
       } catch (err) {
-        console.error("Error fetching stats:", err);
+        toast.error("Error fetching stats:");
       }
     };
 

@@ -23,6 +23,7 @@ export default function TimeTracker({ currentUserId }) {
   const isCheckedIn = !!userTodayAttendance?.checkIn;
   const isCheckedOut = !!userTodayAttendance?.checkOut;
 
+  // time formating func
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -67,6 +68,7 @@ export default function TimeTracker({ currentUserId }) {
     return () => clearInterval(interval);
   }, [userTodayAttendance]);
 
+  // checkin api call
   const handleCheckIn = async () => {
     setIsProcessing(true);
     try {
@@ -81,6 +83,7 @@ export default function TimeTracker({ currentUserId }) {
     }
   };
 
+  // checkout api call
   const handleCheckOut = async () => {
     setIsProcessing(true);
     try {
@@ -94,6 +97,7 @@ export default function TimeTracker({ currentUserId }) {
     }
   };
 
+  // breake api call
   const handleBreak = async () => {
     if (!userTodayAttendance) return;
 

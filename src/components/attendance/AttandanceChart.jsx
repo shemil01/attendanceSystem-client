@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api";
 import StatsCard from "../admin/employeeById/StatsCard";
+import toast from "react-hot-toast";
 
 export default function AttendanceChart() {
   const { data: session, status } = useSession();
@@ -24,7 +25,7 @@ export default function AttendanceChart() {
       const response = await apiClient.getEmployee(userId);
       setStats(response.data.stats);
     } catch (err) {
-      console.error("Error fetching stats:", err);
+      toast.error("Error fetching stats:", err);
     } finally {
       setLoading(false);
     }

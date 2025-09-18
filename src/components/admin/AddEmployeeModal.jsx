@@ -24,7 +24,7 @@ export default function AddEmployeeModal({ isOpen, onClose, onEmployeeAdded }) {
       onEmployeeAdded();
       onClose();
     } catch (error) {
-      toast.error(error.message || "Failed to add employee");
+      toast.error("Failed to add employee");
     } finally {
       setIsLoading(false);
     }

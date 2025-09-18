@@ -40,7 +40,6 @@ export default function EmployeeManagement() {
       setEmployees(response.data.employees);
     } catch (error) {
       toast.error("Failed to fetch employees");
-      console.error("Error fetching employees:", error);
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +56,6 @@ export default function EmployeeManagement() {
       fetchEmployees();
     } catch (error) {
       toast.error("Failed to delete employee");
-      console.error("Error deleting employee:", error);
     }
   };
 

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { useApp } from "../../context/AppContext";
 import TimeTracker from "../attendance/TimeTracker/TimeTracker";
 import { Tab } from "@headlessui/react";
 import { clsx } from "../../lib/utils";
@@ -12,7 +11,6 @@ import LeaveHistory from "../leaves/LeaveHistory";
 
 export default function EmployeeDashboard() {
   const [activeTab, setActiveTab] = useState(0);
-  const { todayAttendance, isLoading } = useApp();
   const { data: session } = useSession();
 
   const tabs = [

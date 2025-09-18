@@ -158,7 +158,7 @@ export function AppProvider({ children }) {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
-export function useApp() {
+export function   useApp() {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error("useApp must be used within an AppProvider");
