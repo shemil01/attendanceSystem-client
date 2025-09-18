@@ -23,6 +23,10 @@ export default function AttendanceHistory() {
     startIndex,
     startIndex + dataPerPage
   );
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   // default is "All"
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
@@ -235,11 +239,11 @@ export default function AttendanceHistory() {
           </div>
         </div>
       )}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
 
       <AttendanceChart />
     </div>
