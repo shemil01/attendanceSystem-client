@@ -7,12 +7,22 @@ import LoadingSpinner from "../ui/LoadingSpinner";
 import { Calendar } from "lucide-react";
 import AttendanceChart from "./AttandanceChart";
 import toast from "react-hot-toast";
+import Pagination from "../ui/Pagination";
 
 export default function AttendanceHistory() {
   const [attendance, setAttendance] = useState([]);
   const [filteredAttendance, setFilteredAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const dataPerPage = 8;
 
+  const totalPages = Math.ceil(filteredAttendance.length / dataPerPage);
+  const startIndex = (currentPage - 1) * dataPerPage;
+  const currentData = filteredAttendance.slice(
+    startIndex,
+    startIndex + dataPerPage
+  );
   // default is "All"
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
@@ -149,7 +159,7 @@ export default function AttendanceHistory() {
         </div>
       </div>
 
-      {filteredAttendance.length === 0 ? (
+      {currentData.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">
           <Calendar className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-sm font-medium text-gray-900">
@@ -191,7 +201,7 @@ export default function AttendanceHistory() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredAttendance.map((record) => (
+                {currentData.map((record) => (
                   <tr key={record._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {formatDate(record.date)}
@@ -225,6 +235,11 @@ export default function AttendanceHistory() {
           </div>
         </div>
       )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
 
       <AttendanceChart />
     </div>
